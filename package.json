@@ -1,9 +1,7 @@
 {
   "name": "pkg-placeholder",
   "version": "0.0.0",
-  "packageManager": "pnpm@9.5.0",
   "description": "_description_",
-  "type": "module",
   "keywords": [
     "pkg-placeholder"
   ],
@@ -12,16 +10,11 @@
   "files": [
     "dist"
   ],
+  "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
-    }
-  },
   "typesVersions": {
     "*": {
       "*": [
@@ -30,29 +23,35 @@
       ]
     }
   },
-  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "test": "vitest",
     "test:update": "vitest -u",
-    "lint": "eslint . --cache",
-    "lint:fix": "eslint . --fix --cache",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "prepublishOnly": "pnpm build",
     "release": "bumpp && npm publish",
-    "typecheck": "tsc --noEmit",
-    "format": "prettier . --write"
+    "typecheck": "tsgo --noEmit",
+    "fmt": "oxfmt"
   },
   "devDependencies": {
-    "@sunshj/eslint-config": "^2.2.0",
-    "@sunshj/prettier-config": "^1.0.2",
     "@types/node": "^18",
+    "@typescript/native-preview": "7.0.0-dev.20260410.1",
     "bumpp": "^9.4.1",
-    "eslint": "^9.10.0",
+    "eslint-plugin-regexp": "3.1.0",
     "lint-staged": "^15.2.10",
-    "prettier": "^3.3.3",
+    "oxfmt": "0.44.0",
+    "oxlint": "1.59.0",
     "simple-git-hooks": "^2.11.1",
-    "tsup": "^8.2.4",
+    "tsdown": "^0.21.7",
     "typescript": "5.5.3",
     "vitest": "^3.0.5"
   },
@@ -60,10 +59,8 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{js,ts,md,json,yaml}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+    "*": "oxfmt --no-error-on-unmatched-pattern",
+    "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint"
   },
-  "prettier": "@sunshj/prettier-config"
+  "packageManager": "pnpm@9.5.0"
 }

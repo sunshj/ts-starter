@@ -1,10 +1,12 @@
-import { defineConfig, type Options } from 'tsup'
+import { defineConfig, type UserConfig } from 'tsdown'
 
-const sharedConfig: Options = {
+const sharedConfig: UserConfig = {
   entry: ['src/index.ts'],
   clean: true,
   shims: true,
-  treeshake: true
+  treeshake: true,
+  dts: false,
+  fixedExtension: false
 }
 
 export default defineConfig([
